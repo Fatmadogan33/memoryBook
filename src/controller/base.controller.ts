@@ -7,5 +7,6 @@ export default class BaseController {
   constructor() {
 
     this.router = express.Router();  }
+    
  }
  
