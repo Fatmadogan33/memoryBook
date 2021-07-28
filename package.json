@@ -70,6 +70,7 @@
     "jet-logger": "^1.0.6",
     "joi": "^17.4.0",
     "jsonfile": "^6.1.0",
+    "knex": "^0.95.8",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0"
   },
