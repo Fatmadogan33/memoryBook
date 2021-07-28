@@ -1,4 +1,4 @@
-import Knex from "knex";
+import { knex,Knex } from "knex";
 import config from '../config'
 
 class DBKnex{
@@ -30,8 +30,7 @@ class DBKnex{
                       max: 10,
                     },
                 };
-
-                this.db = Knex(this.knexConfig);
+                this.db = knex(this.knexConfig);
                 resolve(true);
             }
             catch(error){
