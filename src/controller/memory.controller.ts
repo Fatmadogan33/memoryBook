@@ -1,15 +1,15 @@
 import * as express from "express";
 import BaseController from "./base.controller";
 import schemas from "../validation/memory.validation";
-import Joi from "joi";
+import Joi, { number } from "joi";
 import { ValidationError } from "../exceptions/ValidationError";
-import { MemoryService }from "../services/memory.service";
+import { MemoryService } from "../services/memory.service";
 
 
 
-export class MemoryController extends BaseController{
-    memoryService : MemoryService;
-    
+export class MemoryController extends BaseController {
+  memoryService: MemoryService;
+
   constructor() {
     super();
     this.initializeRoutes();
@@ -17,9 +17,9 @@ export class MemoryController extends BaseController{
   }
 
   getAllMemories(req: express.Request, res: express.Response, next: express.NextFunction) {
-    this.memoryService.getAllMemory().then((memory) => {
-        return res.status(200).send(memory);
-      })
+    this.memoryService.getAllMemories().then((memory) => {
+      return res.status(200).send(memory);
+    })
       .catch((err) => {
         next(err);
       });
@@ -29,7 +29,7 @@ export class MemoryController extends BaseController{
 
     const { body } = req;
 
-    schemas.validateMemory
+    schemas.validateAllValues
       .validateAsync(body)
       .then((validatedMemory) => {
 
@@ -52,11 +52,11 @@ export class MemoryController extends BaseController{
 
     const memory_id = req.params.memory_id;
 
-    schemas.validateMemoryId
+    schemas.validateId
       .validateAsync(memory_id)
       .then((validatedId) => {
         this.memoryService
-          .getMemoryById(validatedId)
+          .getMemory(validatedId)
           .then((memory) => {
             return res.status(200).send(memory);
           })
@@ -73,11 +73,11 @@ export class MemoryController extends BaseController{
 
     const memory_id = req.params.memory_id;
 
-    schemas.validateMemoryId
+    schemas.validateId
       .validateAsync(memory_id)
       .then((validatedId) => {
         this.memoryService
-          .deleteMemoryById(validatedId)
+          .deleteMemory(validatedId)
           .then((_) => {
             return res.status(200).send();
           })
@@ -98,17 +98,17 @@ export class MemoryController extends BaseController{
     const validateObj = req.body;
     validateObj.id = memory_id;
 
-    schemas.validateUpdateMemory
+    schemas.validateAllValues
       .validateAsync(validateObj)
       .then((validatedMemory) => {
-            this.memoryService
-              .updateMemory(validatedMemory)
-              .then((memory) => {
-                return res.status(201).send(memory);
-              })
-              .catch((err) => {
-                next(err);
-              });
+        this.memoryService
+          .updateMemory(validatedMemory)
+          .then((memory) => {
+            return res.status(201).send(memory);
+          })
+          .catch((err) => {
+            next(err);
+          });
       })
       .catch((err: Joi.ValidationError) => {
         next(new ValidationError(err.message));
@@ -126,6 +126,3 @@ export class MemoryController extends BaseController{
 
 const memoryController = new MemoryController();
 export default memoryController.router;
-    
-  
-}

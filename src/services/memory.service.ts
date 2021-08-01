@@ -4,59 +4,73 @@ import KnexDB from "../db/knex";
 import Memory from "../interface/memory";
 import AddMemory from "../interface/add_memory";
 import UpdateMemory from "../interface/update_memory";
+import MemoryDb from "../interface/memory";
 
 export class MemoryService {
+    memoryRepository: MemoryRepository;
 
-    async getAllMemories(id: number): Promise<getAllMemories> {
-        return new Promise((resolve, reject) => {
-            this.MemoryRepository.getMemory(id)
-            .then((res) => {
-                return resolve(res);
-            })
-            .catch((err)=>{
-            reject(err);
-            });
-        });
+    constructor() {
+        this.memoryRepository = new MemoryRepository();
     }
 
-    async addMemory(memory: AddMemory): Promise<AddMemory> {
+    async getAllMemories(): Promise<Memory[]> {
         return new Promise((resolve, reject) => {
-            this.MemoryRepository.addMemory(memory)
-            .then((res) => {
-                return resolve(res);
-            })
-            .catch((err)=>{
-            reject(err);
-            });
-        });
-    }
-    
-    async updateMemory(update: updateMemory): Promise<updateMemory> {
-        return new Promise((resolve, reject) => {
-            this.MemoryRepository.updateMemory(memory)
-            .then((res) => {
-                return resolve(res);
-            })
-            .catch((err)=>{
-            reject(err);
-            });
-        });
-    }
-
-
-    async deleteMemory(id: number): Promise<Boolean> {
-        return new Promise((resolve, reject) => {
-            this.MemoryRepository.deleteMemory(id)
-            .then((res) => {
-                return resolve(res);
+            this.memoryRepository.getAllMemories()
+                .then((res) => {
+                    return resolve(res);
                 })
-                .catch((err)=>{
+                .catch((err) => {
                     reject(err);
                 });
         });
     }
 
+    async getMemory(id: number): Promise<Memory> {
+        return new Promise((resolve, reject) => {
+            this.memoryRepository.getMemory(id)
+                .then((res) => {
+                    return resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
 
+    async addMemory(memory: MemoryDb): Promise<Memory> {
+        return new Promise((resolve, reject) => {
+            this.memoryRepository.addMemory(memory)
+                .then((res) => {
+                    return resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
 
-    
+    async updateMemory(memory: MemoryDb): Promise<Memory> {
+        return new Promise((resolve, reject) => {
+            this.memoryRepository.updateMemory(memory)
+                .then((res) => {
+                    return resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
+
+    async deleteMemory(id: number): Promise<Boolean> {
+        return new Promise((resolve, reject) => {
+            this.memoryRepository.deleteMemory(id)
+                .then((res) => {
+                    return resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
+
 }
