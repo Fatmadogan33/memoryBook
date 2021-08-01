@@ -1,5 +1,5 @@
 import express from "express";
-//import cors from "cors";
+import cors from "cors";
 import KnexDB from "./db/knex";
 import memoryController from "./controller/memory.controller";
 import errorHandler from "./middleware/errormiddleware";
