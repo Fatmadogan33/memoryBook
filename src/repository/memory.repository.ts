@@ -3,7 +3,7 @@ import { MemoryNotFoundError, DatabaseError } from "../exceptions/ValidationErro
 import AddMemory from "../interface/add_memory";
 import UpdateMemory from "../interface/update_memory";
 import MemoryDb from "../interface/memory";
-import Memory from "@entities/Memory";
+import Memory from "../entities/Memory";
 
 class MemoryBook {
 
