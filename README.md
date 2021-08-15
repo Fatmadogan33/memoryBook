@@ -8,7 +8,7 @@ Database Properties :
   POSTGRES_DB = "memory";
   POSTGRES_URL = "postgres://postgres:123@localhost:/memory";
   PORT = 5432;
-  public PASSWORD = process.env.PG_PASSWORD || "123";
+  public PASSWORD = "123";
 ```
 
 Table Create Script
