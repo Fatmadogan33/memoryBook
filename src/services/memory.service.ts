@@ -25,9 +25,9 @@ export class MemoryService {
         });
     }
 
-    async getMemory(id: number): Promise<Memory> {
+    async getMemory(memory: MemoryDb): Promise<Memory> {
         return new Promise((resolve, reject) => {
-            this.memoryRepository.getMemory(id)
+            this.memoryRepository.getMemory(memory.memory_id)
                 .then((res) => {
                     return resolve(res);
                 })
@@ -61,9 +61,9 @@ export class MemoryService {
         });
     }
 
-    async deleteMemory(id: number): Promise<Boolean> {
+    async deleteMemory(memory: MemoryDb): Promise<Boolean> {
         return new Promise((resolve, reject) => {
-            this.memoryRepository.deleteMemory(id)
+            this.memoryRepository.deleteMemory(memory.memory_id)
                 .then((res) => {
                     return resolve(res);
                 })

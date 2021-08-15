@@ -15,10 +15,10 @@ class MemoryBook {
     async getAllMemories(): Promise<MemoryDb[]> {
         return new Promise((resolve, reject) => {
             this.memoryDB.db
-                .select("id", "memory", "date", "location", "title",)
-                .from("memories")
+                .select("memory_id", "memory", "date", "location", "title",)
+                .from("memory")
                 .then((result) => {
-                    resolve(result[0]);
+                    resolve(result);
                 })
                 .catch((error) => {
                     reject(new DatabaseError(error));
@@ -26,12 +26,12 @@ class MemoryBook {
         })
     }
 
-    async getMemory(id: number): Promise<MemoryDb> {
+    async getMemory(memory_id: number): Promise<MemoryDb> {
         return new Promise((resolve, reject) => {
             this.memoryDB.db
-                .select("id", "memory", "date", "location", "title",)
-                .from("memories")
-                .where("memoryid", id)
+                .select("memory_id", "memory", "date", "location", "title",)
+                .from("memory")
+                .where("memory_id", memory_id)
                 .then((result) => {
                     resolve(result[0]);
                 })
@@ -60,7 +60,7 @@ class MemoryBook {
         return new Promise(async (resolve, reject) => {
             const updatedMemory = memory;
             this.memoryDB.db("memory")
-                .where("memory.memoryid", memory.id)
+                .where("memory_id", memory.memory_id)
                 .update(updatedMemory, ["memory_id", "title", "memory", "date", "location"])
                 .then((result) => {
                     resolve(result[0]);
@@ -71,9 +71,9 @@ class MemoryBook {
         })
     }
 
-    async deleteMemory(id: number): Promise<Boolean> {
+    async deleteMemory(memory_id: number): Promise<Boolean> {
         return new Promise(async (resolve, reject) => {
-            this.memoryDB.db("memory").where("memory.memoryid", id).del()
+            this.memoryDB.db("memory").where("memory_id", memory_id).del()
                 .then(() => {
                     resolve(true);
                 })

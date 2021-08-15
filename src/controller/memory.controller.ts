@@ -4,6 +4,7 @@ import schemas from "../validation/memory.validation";
 import Joi, { number } from "joi";
 import { ValidationError } from "../exceptions/ValidationError";
 import { MemoryService } from "../services/memory.service";
+import Memory from "@entities/Memory";
 
 
 
@@ -28,6 +29,8 @@ export class MemoryController extends BaseController {
   addMemory(req: express.Request, res: express.Response, next: express.NextFunction) {
 
     const { body } = req;
+    
+    console.log("add memory istegi geldi.");
 
     schemas.validateAllValues
       .validateAsync(body)
@@ -52,8 +55,11 @@ export class MemoryController extends BaseController {
 
     const memory_id = req.params.memory_id;
 
+    const validateObj = req.body;
+    validateObj.memory_id = memory_id;
+
     schemas.validateId
-      .validateAsync(memory_id)
+      .validateAsync(validateObj)
       .then((validatedId) => {
         this.memoryService
           .getMemory(validatedId)
@@ -73,8 +79,12 @@ export class MemoryController extends BaseController {
 
     const memory_id = req.params.memory_id;
 
+    const validateObj = req.body;
+    validateObj.memory_id = memory_id;
+
+
     schemas.validateId
-      .validateAsync(memory_id)
+      .validateAsync(validateObj)
       .then((validatedId) => {
         this.memoryService
           .deleteMemory(validatedId)
@@ -96,7 +106,7 @@ export class MemoryController extends BaseController {
     const { body } = req;
 
     const validateObj = req.body;
-    validateObj.id = memory_id;
+    validateObj.memory_id = memory_id;
 
     schemas.validateAllValues
       .validateAsync(validateObj)

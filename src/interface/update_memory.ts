@@ -1,5 +1,7 @@
 export default interface updateMemory {
-    id: number;
-    title?: string[];
-    memory?: string[];
-  }
+  memory_id: number;
+  title: string;
+  memory: string;
+  date: number;
+  location: string;
+}
