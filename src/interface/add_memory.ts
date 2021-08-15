@@ -1,7 +1,7 @@
- export default interface addMemory {
-    title: string;
-    date: number;
-    location: string[];
-    memory: string[];
-    
-  }
+export default interface addMemory {
+  memory_id: number;
+  title: string;
+  date: number;
+  location: string;
+  memory: string;
+}
