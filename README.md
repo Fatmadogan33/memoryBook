@@ -2,8 +2,9 @@ To run:
 ```bash
 yarn start 
 ```
-```
+
 Database Properties :
+```
   POSTGRES_DB = "memory";
   POSTGRES_URL = "postgres://postgres:123@localhost:/memory";
   PORT = 5432;
