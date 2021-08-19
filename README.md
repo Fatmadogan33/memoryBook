@@ -25,6 +25,4 @@ CREATE TABLE public.memory
 )
 ```
 
-postman workspace example: [link](MemoryBook.postman_collection.json)
-
 
