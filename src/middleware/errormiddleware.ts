@@ -1,4 +1,4 @@
-import { ValidationError } from "../exceptions/ValidationError"
+import { ValidationError } from "../exceptions/Http-exception"
 import { Request, Response, NextFunction } from "express";
 
 
