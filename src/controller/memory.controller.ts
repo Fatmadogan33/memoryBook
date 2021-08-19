@@ -2,9 +2,8 @@ import * as express from "express";
 import BaseController from "./base.controller";
 import schemas from "../validation/memory.validation";
 import Joi, { number } from "joi";
-import { ValidationError } from "../exceptions/ValidationError";
+import { ValidationError } from "../exceptions/Http-exception";
 import { MemoryService } from "../services/memory.service";
-import Memory from "@entities/Memory";
 
 
 
@@ -32,13 +31,8 @@ export class MemoryController extends BaseController {
     
     console.log("add memory istegi geldi.");
 
-    schemas.validateAllValues
-      .validateAsync(body)
-      .then((validatedMemory) => {
-
-        this.memoryService
-          .addMemory(validatedMemory)
-          .then((memory) => {
+    schemas.validateAllValues.validateAsync(body).then((validatedMemory) => {
+      this.memoryService.addMemory(validatedMemory).then((memory) => {
             return res.status(201).send(memory);
           })
           .catch((err) => {
@@ -58,12 +52,8 @@ export class MemoryController extends BaseController {
     const validateObj = req.body;
     validateObj.memory_id = memory_id;
 
-    schemas.validateId
-      .validateAsync(validateObj)
-      .then((validatedId) => {
-        this.memoryService
-          .getMemory(validatedId)
-          .then((memory) => {
+    schemas.validateId.validateAsync(validateObj).then((validatedId) => {
+        this.memoryService.getMemory(validatedId).then((memory) => {
             return res.status(200).send(memory);
           })
           .catch((err) => {
@@ -83,12 +73,8 @@ export class MemoryController extends BaseController {
     validateObj.memory_id = memory_id;
 
 
-    schemas.validateId
-      .validateAsync(validateObj)
-      .then((validatedId) => {
-        this.memoryService
-          .deleteMemory(validatedId)
-          .then((_) => {
+    schemas.validateId.validateAsync(validateObj).then((validatedId) => {
+        this.memoryService.deleteMemory(validatedId).then((_) => {
             return res.status(200).send();
           })
           .catch((err) => {
@@ -108,13 +94,9 @@ export class MemoryController extends BaseController {
     const validateObj = req.body;
     validateObj.memory_id = memory_id;
 
-    schemas.validateAllValues
-      .validateAsync(validateObj)
-      .then((validatedMemory) => {
-        this.memoryService
-          .updateMemory(validatedMemory)
-          .then((memory) => {
-            return res.status(201).send(memory);
+    schemas.validateAllValues.validateAsync(validateObj).then((validatedMemory) => {
+        this.memoryService.updateMemory(validatedMemory).then((memory) => {
+            return res.status(200).send(memory);
           })
           .catch((err) => {
             next(err);

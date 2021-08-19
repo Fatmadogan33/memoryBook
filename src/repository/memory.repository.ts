@@ -1,5 +1,5 @@
 import KnexDB from "../db/knex";
-import { MemoryNotFoundError, DatabaseError } from "../exceptions/ValidationError"
+import { MemoryNotFoundError, DatabaseError } from "../exceptions/Http-exception"
 import AddMemory from "../interface/add_memory";
 import UpdateMemory from "../interface/update_memory";
 import MemoryDb from "../interface/memory";

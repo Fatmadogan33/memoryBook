@@ -1,9 +1,6 @@
 
 import MemoryRepository from "../repository/memory.repository";
-import KnexDB from "../db/knex";
 import Memory from "../interface/memory";
-import AddMemory from "../interface/add_memory";
-import UpdateMemory from "../interface/update_memory";
 import MemoryDb from "../interface/memory";
 
 export class MemoryService {
