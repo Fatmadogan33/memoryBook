@@ -52,6 +52,8 @@ export class MemoryController extends BaseController {
     const validateObj = req.body;
     validateObj.memory_id = memory_id;
 
+    console.log("get memory istegi geldi.");
+
     schemas.validateId.validateAsync(validateObj).then((validatedId) => {
         this.memoryService.getMemory(validatedId).then((memory) => {
             return res.status(200).send(memory);
@@ -72,6 +74,7 @@ export class MemoryController extends BaseController {
     const validateObj = req.body;
     validateObj.memory_id = memory_id;
 
+    console.log("delete memory istegi geldi.");
 
     schemas.validateId.validateAsync(validateObj).then((validatedId) => {
         this.memoryService.deleteMemory(validatedId).then((_) => {
@@ -93,6 +96,8 @@ export class MemoryController extends BaseController {
 
     const validateObj = req.body;
     validateObj.memory_id = memory_id;
+
+    console.log("update memory istegi geldi.");
 
     schemas.validateAllValues.validateAsync(validateObj).then((validatedMemory) => {
         this.memoryService.updateMemory(validatedMemory).then((memory) => {
