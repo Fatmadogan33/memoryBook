@@ -12,11 +12,12 @@ class MemoryBook {
         this.memoryDB = KnexDB;
     }
 
-    async getAllMemories(): Promise<MemoryDb[]> {
+    async getAllMemories(params: any): Promise<MemoryDb[]> {
         return new Promise((resolve, reject) => {
             this.memoryDB.db
                 .select("memory_id", "memory", "date", "location", "title",)
                 .from("memory")
+                .orderBy(params.order_column,params.order_type)
                 .then((result) => {
                     resolve(result);
                 })
@@ -74,8 +75,12 @@ class MemoryBook {
     async deleteMemory(memory_id: number): Promise<Boolean> {
         return new Promise(async (resolve, reject) => {
             this.memoryDB.db("memory").where("memory_id", memory_id).del()
-                .then(() => {
-                    resolve(true);
+                .then((result) => {
+                    if(result == 0){
+                        resolve(false);
+                    }else{
+                        resolve(true);
+                    }
                 })
                 .catch((error) => {
                     reject(new DatabaseError(error));
