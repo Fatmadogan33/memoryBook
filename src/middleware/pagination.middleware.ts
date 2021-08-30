@@ -1,11 +1,14 @@
-import { NextFunction, Request, Response } from "express";
+/* import { NextFunction, Request, Response } from "express";
+import RequestPagination from "src/interface/requestPagination";
 import { ValidationError } from "../exceptions/Http-exception";
-import RequestPagination, {PaginationOptions} from "../interface/requestPagination.interface";
+
 
 async function paginationMiddleware(request: RequestPagination, response: Response, next: NextFunction) {
-    const paginationOptions = new PaginationOptions();
 
-    if (request.wuery.sortBy && request.query.orderBy) {
+
+    const paginationOptions = new RequestPagination();
+
+    if (request.query.sortBy && request.query.orderBy) {
         paginationOptions.enable = true;
         paginationOptions.orderBy = request.query.orderBy.toString();
         paginationOptions.orderSort = request.query.sortBy === "desc" ? "desc" : "asc";
@@ -40,3 +43,4 @@ async function paginationMiddleware(request: RequestPagination, response: Respon
     
 
 }
+ */

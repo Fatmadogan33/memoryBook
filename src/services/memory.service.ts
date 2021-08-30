@@ -10,9 +10,9 @@ export class MemoryService {
         this.memoryRepository = new MemoryRepository();
     }
 
-    async getAllMemories(): Promise<Memory[]> {
+    async getAllMemories(params: any): Promise<Memory[]> {
         return new Promise((resolve, reject) => {
-            this.memoryRepository.getAllMemories()
+            this.memoryRepository.getAllMemories(params)
                 .then((res) => {
                     return resolve(res);
                 })

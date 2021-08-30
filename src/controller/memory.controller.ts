@@ -17,7 +17,9 @@ export class MemoryController extends BaseController {
   }
 
   getAllMemories(req: express.Request, res: express.Response, next: express.NextFunction) {
-    this.memoryService.getAllMemories().then((memory) => {
+    const memory_id = req.params;
+
+    this.memoryService.getAllMemories(req.params).then((memory) => {
       return res.status(200).send(memory);
     })
       .catch((err) => {
@@ -28,18 +30,18 @@ export class MemoryController extends BaseController {
   addMemory(req: express.Request, res: express.Response, next: express.NextFunction) {
 
     const { body } = req;
-    
+
     console.log("add memory istegi geldi.");
 
     schemas.validateAllValues.validateAsync(body).then((validatedMemory) => {
       this.memoryService.addMemory(validatedMemory).then((memory) => {
-            return res.status(201).send(memory);
-          })
-          .catch((err) => {
-            next(err);
-          });
-
+        return res.status(201).send(memory);
       })
+        .catch((err) => {
+          next(err);
+        });
+
+    })
       .catch((err: Joi.ValidationError) => {
         next(new ValidationError(err.message));
       });
@@ -55,13 +57,19 @@ export class MemoryController extends BaseController {
     console.log("get memory istegi geldi.");
 
     schemas.validateId.validateAsync(validateObj).then((validatedId) => {
-        this.memoryService.getMemory(validatedId).then((memory) => {
-            return res.status(200).send(memory);
-          })
-          .catch((err) => {
-            next(err);
-          });
+      this.memoryService.getMemory(validatedId).then((memory) => {
+        if (memory == null) {
+          console.log("User Not Found! Id:" + memory_id);
+          return res.status(404).send("User Not Found! Id:" + memory_id);
+        }
+        console.log("User Found. Id:" + memory_id);
+
+        return res.status(200).send(memory);
       })
+        .catch((err) => {
+          next(err);
+        });
+    })
       .catch((err: Joi.ValidationError) => {
         next(new ValidationError(err.message));
       });
@@ -77,13 +85,16 @@ export class MemoryController extends BaseController {
     console.log("delete memory istegi geldi.");
 
     schemas.validateId.validateAsync(validateObj).then((validatedId) => {
-        this.memoryService.deleteMemory(validatedId).then((_) => {
-            return res.status(200).send();
-          })
-          .catch((err) => {
-            next(err);
-          });
+      this.memoryService.deleteMemory(validatedId).then((isSuccess) => {
+        if(isSuccess){
+          return res.status(200).send(memory_id+" memory successfully deleted.");
+        }
+        return res.status(404).send(memory_id+" memory not found!");
       })
+        .catch((err) => {
+          next(err);
+        });
+    })
       .catch((err: Joi.ValidationError) => {
         next(new ValidationError(err.message));
       });
@@ -100,20 +111,20 @@ export class MemoryController extends BaseController {
     console.log("update memory istegi geldi.");
 
     schemas.validateAllValues.validateAsync(validateObj).then((validatedMemory) => {
-        this.memoryService.updateMemory(validatedMemory).then((memory) => {
-            return res.status(200).send(memory);
-          })
-          .catch((err) => {
-            next(err);
-          });
+      this.memoryService.updateMemory(validatedMemory).then((memory) => {
+        return res.status(200).send(memory);
       })
+        .catch((err) => {
+          next(err);
+        });
+    })
       .catch((err: Joi.ValidationError) => {
         next(new ValidationError(err.message));
       });
   }
 
   initializeRoutes() {
-    this.router.get("/", this.getAllMemories.bind(this));
+    this.router.get("/all-:order_column-:order_type", this.getAllMemories.bind(this));
     this.router.post("/", this.addMemory.bind(this));
     this.router.get("/:memory_id", this.getMemory.bind(this));
     this.router.delete("/:memory_id", this.deleteMemory.bind(this));
